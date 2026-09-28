@@ -1,0 +1,135 @@
+<view class="page-wrap page-wrap--flat">
+
+  <!-- 顶部打卡概览 -->
+  <view class="card hero">
+    <view class="row-between">
+      <view class="col">
+        <text class="t-sm t-muted">今天是</text>
+        <text class="t-md t-bold mt-1">{{today}}</text>
+      </view>
+      <view class="streak col center">
+        <text class="streak__num t-xl t-bold">{{streak}}</text>
+        <text class="t-xs t-muted">连续打卡（天）</text>
+      </view>
+    </view>
+    <view class="hero__progress mt-3">
+      <view class="hero__bar">
+        <view class="hero__fill" style="width:{{doneCount / 4 * 100}}%"></view>
+      </view>
+      <text class="t-xs t-muted mt-2">今日已完成 {{doneCount}} / 4 餐</text>
+    </view>
+  </view>
+
+  <!-- 本周 -->
+  <view class="section-head">
+    <text class="section-title">本周打卡</text>
+    <text class="section-more" bindtap="goStats">数据统计 →</text>
+  </view>
+  <view class="card week row-between">
+    <view class="week__day col center" wx:for="{{weekDots}}" wx:key="key">
+      <text class="t-xs t-muted">{{item.label}}</text>
+      <view class="week__dot week__dot--{{item.level}} {{item.isToday ? 'week__dot--today' : ''}} center">
+        <text class="week__dot-num">{{item.day}}</text>
+      </view>
+      <text class="t-xs t-muted">{{item.count}}餐</text>
+    </view>
+  </view>
+
+  <!-- 今日三餐打卡 -->
+  <view class="section-head">
+    <text class="section-title">今日饮食</text>
+  </view>
+  <view class="meals col gap-2">
+    <view class="meal card card--tap row-between {{item.done ? 'meal--done' : ''}}"
+          wx:for="{{meals}}" wx:key="key"
+          data-key="{{item.key}}" bindtap="toggleMeal">
+      <view class="row">
+        <view class="meal__icon center">
+          <text class="meal__emoji">{{item.icon}}</text>
+        </view>
+        <text class="t-md t-bold ml-2">{{item.label}}</text>
+      </view>
+      <view class="meal__check center {{item.done ? 'meal__check--on' : ''}}">
+        <text wx:if="{{item.done}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 饮食备注 -->
+  <view class="section-head">
+    <text class="section-title">今日饮食备注</text>
+  </view>
+  <view class="card">
+    <textarea class="note" placeholder="记录今天的饮食感受，如饥饿度、状态…" placeholder-class="ph"
+              value="{{note}}" bindinput="onNote" maxlength="200" auto-height />
+    <view class="row-between mt-2">
+      <text class="t-xs t-muted">{{note.length}}/200</text>
+      <button class="btn btn--ghost btn--sm" bindtap="saveNote">保存备注</button>
+    </view>
+  </view>
+
+  <!-- 今日营养摄入 vs 目标 -->
+  <block wx:if="{{intake}}">
+    <view class="section-head">
+      <text class="section-title">今日摄入进度</text>
+      <text class="t-xs t-muted">按已打卡餐次估算</text>
+    </view>
+    <view class="card">
+      <view class="cmp-item">
+        <view class="row-between">
+          <text class="t-sm t-sub">热量</text>
+          <text class="t-sm t-bold">{{intake.kcal}} / {{target.targetCalories}} kcal</text>
+        </view>
+        <view class="cmp-bar">
+          <view class="cmp-bar__fill cmp-bar__fill--kcal" style="width:{{intake.kcalPct > 100 ? 100 : intake.kcalPct}}%"></view>
+        </view>
+        <text class="t-xs t-muted">{{intake.kcalPct}}%</text>
+      </view>
+
+      <view class="cmp-item">
+        <view class="row-between">
+          <text class="t-sm t-sub">蛋白质</text>
+          <text class="t-sm t-bold">{{intake.protein}} / {{target.macros.protein}} g</text>
+        </view>
+        <view class="cmp-bar">
+          <view class="cmp-bar__fill cmp-bar__fill--p" style="width:{{intake.proteinPct > 100 ? 100 : intake.proteinPct}}%"></view>
+        </view>
+        <text class="t-xs t-muted">{{intake.proteinPct}}%</text>
+      </view>
+
+      <view class="cmp-item">
+        <view class="row-between">
+          <text class="t-sm t-sub">碳水化合物</text>
+          <text class="t-sm t-bold">{{intake.carb}} / {{target.macros.carb}} g</text>
+        </view>
+        <view class="cmp-bar">
+          <view class="cmp-bar__fill cmp-bar__fill--c" style="width:{{intake.carbPct > 100 ? 100 : intake.carbPct}}%"></view>
+        </view>
+        <text class="t-xs t-muted">{{intake.carbPct}}%</text>
+      </view>
+
+      <view class="cmp-item">
+        <view class="row-between">
+          <text class="t-sm t-sub">脂肪</text>
+          <text class="t-sm t-bold">{{intake.fat}} / {{target.macros.fat}} g</text>
+        </view>
+        <view class="cmp-bar">
+          <view class="cmp-bar__fill cmp-bar__fill--f" style="width:{{intake.fatPct > 100 ? 100 : intake.fatPct}}%"></view>
+        </view>
+        <text class="t-xs t-muted">{{intake.fatPct}}%</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 目标提醒 -->
+  <view class="card--flat card mt-3" wx:if="{{target}}">
+    <view class="row-between">
+      <text class="t-sm t-sub">今日推荐摄入</text>
+      <text class="t-sm t-bold t-mint">{{target.targetCalories}} kcal</text>
+    </view>
+    <view class="row-between mt-2">
+      <text class="t-sm t-sub">蛋白 / 碳水 / 脂肪</text>
+      <text class="t-sm t-bold">{{target.macros.protein}} / {{target.macros.carb}} / {{target.macros.fat}} g</text>
+    </view>
+  </view>
+</view>

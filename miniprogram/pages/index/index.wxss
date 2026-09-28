@@ -1,0 +1,74 @@
+.hero { padding: var(--s-2) var(--s-1); }
+.hero__hello { letter-spacing: 1rpx; }
+.hero__sub { margin-top: 6rpx; }
+.hero__leaf {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-mint-100), var(--c-mint-200));
+  flex: none;
+}
+.hero__leaf-emoji { font-size: 44rpx; }
+
+.cta {
+  background: linear-gradient(135deg, #EAF7F3, #DFF3EC);
+  border: 2rpx solid var(--c-mint-100);
+}
+.cta__arrow {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--c-mint-500);
+  flex: none;
+}
+
+.dash { background: linear-gradient(160deg, #FBFFFD, #F1FAF7); }
+.ring-kcal { line-height: 1.1; }
+.ml { margin-left: var(--s-3); }
+.dash__item { padding: 4rpx 0; }
+
+.progress-mini {
+  width: 200rpx;
+  height: 16rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-line);
+  overflow: hidden;
+  flex: none;
+}
+.progress-mini__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--c-mint-300), var(--c-mint-500));
+  transition: width 400ms var(--ease);
+}
+
+.scene__icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: var(--r-md);
+  flex: none;
+}
+.scene__icon--mint { background: linear-gradient(135deg, #DFF3EC, #BFE7DC); }
+.scene__icon--carb { background: linear-gradient(135deg, #FBF0D8, #F7E2B4); }
+.scene__icon--fat  { background: linear-gradient(135deg, #FBE8E1, #F6D3C6); }
+.scene__emoji { font-size: 44rpx; }
+.ml { margin-left: var(--s-3); }
+
+/* 周计划入口 */
+.week-entry {
+  background: linear-gradient(135deg, var(--c-mint-400), var(--c-mint-500));
+  border: none;
+}
+.week-entry__icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.22);
+  flex: none;
+}
+.week-entry .t-md, .week-entry .t-xs { color: #fff; }
+.week-entry .t-xs { opacity: 0.86; }
+.t-white { color: #fff; }
+
+.foot-tip { letter-spacing: 1rpx; }

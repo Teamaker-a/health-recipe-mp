@@ -1,0 +1,42 @@
+.hero-card { background: linear-gradient(160deg, #FBFFFD, #EFF9F5); }
+.hero-num { line-height: 1.05; }
+
+.stats-strip { padding-top: var(--s-2); }
+.strip-cell { flex: 1; }
+.strip-line { width: 2rpx; height: 56rpx; background: var(--c-line); }
+
+.macro-detail { align-items: stretch; }
+.md-cell { padding: var(--s-2); border-radius: var(--r-md); }
+.md-cell--p { background: rgba(111, 183, 224, 0.1); }
+.md-cell--c { background: rgba(240, 195, 109, 0.12); }
+.md-cell--f { background: rgba(232, 160, 138, 0.1); }
+.md-num { line-height: 1.2; }
+
+.meal-split { padding: var(--s-2) 0; }
+.meal-split__icon { font-size: 40rpx; margin-right: var(--s-2); }
+.meal-split__bar {
+  width: 240rpx;
+  height: 14rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-line);
+  overflow: hidden;
+}
+.meal-split__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--c-mint-300), var(--c-mint-500));
+  transition: width 400ms var(--ease);
+}
+.meal-split__num { width: 150rpx; text-align: right; }
+
+.bottom-actions {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4) calc(var(--s-3) + env(safe-area-inset-bottom));
+  background: rgba(253, 254, 253, 0.92);
+  backdrop-filter: blur(10px);
+  border-top: 2rpx solid var(--c-line);
+}
+.tip-note { line-height: 1.7; padding: 0 var(--s-1); }

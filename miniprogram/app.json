@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/profile/profile",
+    "pages/nutrition/nutrition",
+    "pages/generate/generate",
+    "pages/weekplan/weekplan",
+    "pages/recipe-detail/recipe-detail",
+    "pages/browse/browse",
+    "pages/favorites/favorites",
+    "pages/checkin/checkin",
+    "pages/stats/stats"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F7FBF9",
+    "navigationBarTitleText": "轻食谱",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7FBF9"
+  },
+  "tabBar": {
+    "color": "#9AA8A2",
+    "selectedColor": "#4FB6A0",
+    "backgroundColor": "#FDFEFD",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/browse/browse",
+        "text": "食谱库"
+      },
+      {
+        "pagePath": "pages/checkin/checkin",
+        "text": "打卡"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

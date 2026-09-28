@@ -1,0 +1,55 @@
+<view class="page-wrap">
+
+  <!-- 概览 -->
+  <view class="grid">
+    <view class="stat card col center">
+      <text class="stat__num t-xl t-bold t-mint">{{totalDays}}</text>
+      <text class="t-xs t-muted">累计打卡天数</text>
+    </view>
+    <view class="stat card col center">
+      <text class="stat__num t-xl t-bold t-mint">{{streak}}</text>
+      <text class="t-xs t-muted">连续打卡</text>
+    </view>
+    <view class="stat card col center">
+      <text class="stat__num t-xl t-bold t-mint">{{totalMeals}}</text>
+      <text class="t-xs t-muted">累计记录餐次</text>
+    </view>
+    <view class="stat card col center" bindtap="goFavorites">
+      <text class="stat__num t-xl t-bold t-mint">{{favCount}}</text>
+      <text class="t-xs t-muted">收藏食谱 →</text>
+    </view>
+  </view>
+
+  <!-- 完成率 -->
+  <view class="card mt-3">
+    <view class="row-between">
+      <text class="t-md t-bold">饮食计划完成率</text>
+      <text class="t-md t-bold t-mint">{{completionRate}}%</text>
+    </view>
+    <view class="rate-bar mt-3">
+      <view class="rate-bar__fill" style="width:{{completionRate}}%"></view>
+    </view>
+    <text class="t-xs t-muted mt-2">按每日 4 餐计算，坚持得越多越接近 100%</text>
+  </view>
+
+  <!-- 近14天柱状图 -->
+  <view class="section-head">
+    <text class="section-title">近 14 天打卡</text>
+  </view>
+  <view class="card">
+    <view class="chart row-between">
+      <view class="bar col center" wx:for="{{last14}}" wx:key="key">
+        <view class="bar__track">
+          <view class="bar__fill" style="height:{{item.pct}}%"></view>
+        </view>
+        <text class="t-xs t-muted bar__label">{{item.day}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{totalDays === 0}}">
+    <view class="empty__icon">📊</view>
+    <text class="t-sm">还没有打卡记录</text>
+    <text class="t-xs t-muted mt-2">去「打卡」页记录今天的饮食吧</text>
+  </view>
+</view>

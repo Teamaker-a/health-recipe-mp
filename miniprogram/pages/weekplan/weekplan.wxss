@@ -1,0 +1,70 @@
+.tabs {
+  gap: var(--s-2);
+  background: var(--c-surface);
+  padding: 8rpx;
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-1);
+}
+.tabs__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s-2) 0;
+  border-radius: var(--r-md);
+  transition: all var(--dur) var(--ease);
+}
+.tabs__emoji { font-size: 40rpx; }
+.tabs__label { font-size: var(--f-xs); color: var(--c-ink-2); margin-top: 4rpx; }
+.tabs__item--on { background: linear-gradient(160deg, var(--c-mint-50), var(--c-mint-100)); }
+.tabs__item--on .tabs__label { color: var(--c-mint-600); font-weight: 600; }
+
+.avg { background: linear-gradient(160deg, #FBFFFD, #EFF9F5); }
+.avg__row { align-items: flex-end; }
+
+.daytabs { width: 100%; white-space: nowrap; margin-top: var(--s-4); }
+.daytabs__inner { display: inline-flex; gap: var(--s-2); padding: 4rpx 0; }
+.daytab {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 128rpx;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  border: 2rpx solid var(--c-line);
+  transition: all var(--dur) var(--ease);
+}
+.daytab__w { font-size: var(--f-sm); font-weight: 600; color: var(--c-ink-2); }
+.daytab__d { font-size: var(--f-xs); color: var(--c-ink-3); margin-top: 2rpx; }
+.daytab--on {
+  background: linear-gradient(135deg, var(--c-mint-400), var(--c-mint-500));
+  border-color: transparent;
+  box-shadow: 0 8rpx 20rpx rgba(79, 182, 160, 0.24);
+}
+.daytab--on .daytab__w, .daytab--on .daytab__d { color: #fff; }
+.daytab--today { border-color: var(--c-mint-300); }
+
+.day-sum { margin-top: var(--s-3); }
+
+.meal-block { margin-top: var(--s-3); }
+.day-meal { padding: var(--s-2) var(--s-1); gap: var(--s-2); }
+.day-meal__icon { font-size: 36rpx; }
+.nowrap { white-space: nowrap; }
+
+.dish {
+  padding: var(--s-3);
+  align-items: center;
+}
+.dish__thumb {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: var(--r-md);
+  flex: none;
+  margin-right: var(--s-3);
+  background: var(--c-mint-50);
+}
+.dish__main { min-width: 0; }
+.dish__chev { color: var(--c-mint-400); font-size: var(--f-lg); flex: none; }
+
+.foot-tip { letter-spacing: 1rpx; }

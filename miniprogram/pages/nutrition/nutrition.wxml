@@ -1,0 +1,100 @@
+<view class="page-wrap" wx:if="{{nut}}">
+
+  <!-- 核心热量环 -->
+  <view class="card hero-card">
+    <view class="row-between">
+      <text class="t-md t-bold">每日推荐摄入</text>
+      <text class="tag">{{nut.goalLabel}}</text>
+    </view>
+    <view class="center col mt-3">
+      <cal-ring value="{{nut.targetCalories}}" max="{{nut.tdee}}" size="400" thickness="22">
+        <text class="hero-num t-2xl t-bold t-mint">{{nut.targetCalories}}</text>
+        <text class="t-xs t-muted">kcal / 天</text>
+        <text class="t-xs t-muted mt-1">总消耗 {{nut.tdee}}</text>
+      </cal-ring>
+    </view>
+    <view class="row-between mt-4 stats-strip">
+      <view class="strip-cell col center">
+        <text class="t-md t-bold">{{nut.bmr}}</text>
+        <text class="t-xs t-muted">BMR 基础代谢</text>
+      </view>
+      <view class="strip-line"></view>
+      <view class="strip-cell col center">
+        <text class="t-md t-bold">{{nut.activityFactor}}</text>
+        <text class="t-xs t-muted">活动系数</text>
+      </view>
+      <view class="strip-line"></view>
+      <view class="strip-cell col center">
+        <text class="t-md t-bold">{{nut.bmi}}</text>
+        <text class="t-xs t-muted">BMI · {{nut.bmiLabel}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 三大营养素 -->
+  <view class="section-head">
+    <text class="section-title">三大营养素标准</text>
+  </view>
+  <view class="card">
+    <macro-bar protein="{{nut.macros.protein}}" carb="{{nut.macros.carb}}" fat="{{nut.macros.fat}}"
+               proteinCal="{{nut.macros.proteinCal}}" carbCal="{{nut.macros.carbCal}}" fatCal="{{nut.macros.fatCal}}" />
+    <view class="divider"></view>
+    <view class="macro-detail row">
+      <view class="md-cell col center grow md-cell--p">
+        <text class="md-num t-xl t-bold">{{nut.macros.protein}}g</text>
+        <text class="t-xs t-muted">蛋白质</text>
+        <text class="t-xs t-muted">约 {{nut.macros.proteinCal}} kcal</text>
+      </view>
+      <view class="md-cell col center grow md-cell--c">
+        <text class="md-num t-xl t-bold">{{nut.macros.carb}}g</text>
+        <text class="t-xs t-muted">碳水化合物</text>
+        <text class="t-xs t-muted">约 {{nut.macros.carbCal}} kcal</text>
+      </view>
+      <view class="md-cell col center grow md-cell--f">
+        <text class="md-num t-xl t-bold">{{nut.macros.fat}}g</text>
+        <text class="t-xs t-muted">脂肪</text>
+        <text class="t-xs t-muted">约 {{nut.macros.fatCal}} kcal</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 三餐分配 -->
+  <view class="section-head">
+    <text class="section-title">三餐 + 加餐 热量分配</text>
+  </view>
+  <view class="card">
+    <view class="meal-split row-between" wx:for="{{meals}}" wx:key="key">
+      <view class="row">
+        <text class="meal-split__icon">{{item.icon}}</text>
+        <text class="t-md">{{item.label}}</text>
+      </view>
+      <view class="row gap-3">
+        <view class="meal-split__bar">
+          <view class="meal-split__fill" style="width:{{item.ratio * 100 / 0.35}}%"></view>
+        </view>
+        <text class="t-sm t-bold t-mint meal-split__num">{{item.calories}} kcal</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 饮水建议 -->
+  <view class="card--flat card mt-3 row-between">
+    <view class="row gap-2">
+      <text class="t-lg">💧</text>
+      <view class="col">
+        <text class="t-sm t-bold">建议每日饮水</text>
+        <text class="t-xs t-muted">按体重每公斤 35ml 估算</text>
+      </view>
+    </view>
+    <text class="t-md t-bold t-mint">{{nut.water}} ml</text>
+  </view>
+
+  <view class="tip-note t-xs t-muted mt-3">
+    说明：BMR 采用 Mifflin-St Jeor 公式；TDEE = BMR × 活动系数；增肌 +12%、减脂 −18% 热量调整，且保证不低于基础代谢。
+  </view>
+
+  <view class="bottom-actions">
+    <button class="btn btn--ghost" bindtap="goProfile">修改数据</button>
+    <button class="btn btn--primary grow" bindtap="goGenerate">生成今日食谱</button>
+  </view>
+</view>

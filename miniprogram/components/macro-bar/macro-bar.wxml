@@ -1,0 +1,28 @@
+<view class="macro {{compact ? 'macro--compact' : ''}}">
+  <view class="macro__head row-between" wx:if="{{!compact}}">
+    <text class="t-sm t-sub">三大营养素供能比</text>
+    <text class="t-xs t-muted">蛋白 {{pctP}}% · 碳水 {{pctC}}% · 脂肪 {{pctF}}%</text>
+  </view>
+  <view class="macro__bar">
+    <view class="macro__seg macro__seg--p" style="width:{{pctP}}%"></view>
+    <view class="macro__seg macro__seg--c" style="width:{{pctC}}%"></view>
+    <view class="macro__seg macro__seg--f" style="width:{{pctF}}%"></view>
+  </view>
+  <view class="macro__legend row wrap gap-3 {{compact ? 'mt-2' : 'mt-3'}}">
+    <view class="macro__item row gap-1">
+      <view class="macro__dot macro__dot--p"></view>
+      <text class="t-sm">蛋白质</text>
+      <text class="t-sm t-bold">{{protein}}g</text>
+    </view>
+    <view class="macro__item row gap-1">
+      <view class="macro__dot macro__dot--c"></view>
+      <text class="t-sm">碳水</text>
+      <text class="t-sm t-bold">{{carb}}g</text>
+    </view>
+    <view class="macro__item row gap-1">
+      <view class="macro__dot macro__dot--f"></view>
+      <text class="t-sm">脂肪</text>
+      <text class="t-sm t-bold">{{fat}}g</text>
+    </view>
+  </view>
+</view>

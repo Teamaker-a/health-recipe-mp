@@ -1,0 +1,43 @@
+<view class="page-wrap page-wrap--flat">
+
+  <!-- 搜索 -->
+  <view class="search row">
+    <text class="search__icon">🔍</text>
+    <input class="search__input grow" placeholder="搜索食谱或食材" placeholder-class="ph"
+           value="{{keyword}}" bindinput="onSearch" confirm-type="search" />
+    <text class="search__clear" wx:if="{{keyword}}" bindtap="clearSearch">✕</text>
+  </view>
+
+  <!-- 分类标签 -->
+  <scroll-view scroll-x class="cats" enhanced show-scrollbar="{{false}}">
+    <view class="cats__inner row">
+      <view class="chip {{activeCat === item.key ? 'chip--on' : ''}}"
+            wx:for="{{categories}}" wx:key="key"
+            data-key="{{item.key}}" bindtap="pickCat">{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 餐次筛选 -->
+  <scroll-view scroll-x class="meals" enhanced show-scrollbar="{{false}}">
+    <view class="meals__inner row">
+      <view class="pill {{activeMeal === item.key ? 'pill--on' : ''}}"
+            wx:for="{{mealFilters}}" wx:key="key"
+            data-key="{{item.key}}" bindtap="pickMeal">{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 结果 -->
+  <view class="result-head row-between">
+    <text class="t-sm t-muted">共 {{list.length}} 道食谱</text>
+  </view>
+
+  <block wx:if="{{list.length}}">
+    <recipe-card wx:for="{{list}}" wx:key="id" recipe="{{item}}" bindtap="goDetail" />
+  </block>
+
+  <view class="empty" wx:else>
+    <view class="empty__icon">🥗</view>
+    <text class="t-sm">没有找到匹配的食谱</text>
+    <text class="t-xs t-muted mt-2">换个关键词或分类试试吧</text>
+  </view>
+</view>

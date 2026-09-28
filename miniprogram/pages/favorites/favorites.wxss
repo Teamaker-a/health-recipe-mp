@@ -1,0 +1,1 @@
+.head { margin-bottom: var(--s-3); padding: 0 var(--s-1); }

@@ -1,0 +1,6 @@
+<view class="ring-wrap" style="width:{{size}}rpx;height:{{size}}rpx;">
+  <canvas type="2d" id="ring" class="ring-canvas"></canvas>
+  <view class="ring-inner center col">
+    <slot></slot>
+  </view>
+</view>

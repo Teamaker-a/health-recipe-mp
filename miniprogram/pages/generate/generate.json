@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "生成食谱",
+  "usingComponents": {
+    "macro-bar": "/components/macro-bar/macro-bar"
+  }
+}

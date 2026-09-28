@@ -1,0 +1,58 @@
+.rcard {
+  margin-bottom: var(--s-3);
+  padding: 0;
+  overflow: hidden;
+}
+.rcard__cover {
+  position: relative;
+  width: 100%;
+  height: 340rpx;
+  background: linear-gradient(135deg, var(--c-mint-100), var(--c-mint-200));
+}
+.rcard__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.rcard__badge {
+  position: absolute;
+  left: var(--s-3);
+  top: var(--s-3);
+  padding: 6rpx 20rpx;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--c-mint-600);
+  font-size: var(--f-xs);
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+}
+.rcard__kcal-badge {
+  position: absolute;
+  right: var(--s-3);
+  bottom: var(--s-3);
+  display: flex;
+  align-items: baseline;
+  padding: 6rpx 20rpx;
+  border-radius: var(--r-pill);
+  background: rgba(38, 49, 45, 0.55);
+  backdrop-filter: blur(8px);
+}
+.rcard__kcal-num {
+  color: #fff;
+  font-size: var(--f-md);
+  font-weight: 700;
+  line-height: 1;
+}
+.rcard__kcal-unit {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--f-xs);
+  margin-left: 4rpx;
+}
+
+.rcard__body { padding: var(--s-3) var(--s-4) var(--s-4); }
+.rcard__macros { flex-wrap: wrap; }
+
+.tag--soft {
+  background: var(--c-bg);
+  color: var(--c-ink-2);
+}

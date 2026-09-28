@@ -1,0 +1,17 @@
+<view class="page-wrap page-wrap--flat">
+
+  <view class="head row-between" wx:if="{{list.length}}">
+    <text class="t-md t-bold">共收藏 {{list.length}} 道食谱</text>
+  </view>
+
+  <block wx:if="{{list.length}}">
+    <recipe-card wx:for="{{list}}" wx:key="id" recipe="{{item}}" bindtap="goDetail" />
+  </block>
+
+  <view class="empty" wx:else>
+    <view class="empty__icon">🤍</view>
+    <text class="t-sm">还没有收藏任何食谱</text>
+    <text class="t-xs t-muted mt-2">在食谱详情页点❤️即可收藏</text>
+    <button class="btn btn--primary btn--sm mt-4" bindtap="goBrowse">去逛食谱库</button>
+  </view>
+</view>

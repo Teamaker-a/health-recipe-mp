@@ -1,0 +1,115 @@
+<view class="page-wrap">
+
+  <view class="intro">
+    <text class="t-lg t-bold">填写你的身体数据</text>
+    <text class="t-sm t-muted mt-1">用于精准计算你的代谢与营养需求，仅保存在本机</text>
+  </view>
+
+  <!-- 性别 -->
+  <view class="card mt-4">
+    <text class="field-label">性别</text>
+    <view class="seg row mt-2">
+      <view class="seg__item {{profile.gender === 'female' ? 'seg__item--on' : ''}}"
+            data-value="female" bindtap="pickGender">女生</view>
+      <view class="seg__item {{profile.gender === 'male' ? 'seg__item--on' : ''}}"
+            data-value="male" bindtap="pickGender">男生</view>
+    </view>
+  </view>
+
+  <!-- 数值输入 -->
+  <view class="card mt-3">
+    <view class="num-row row-between">
+      <text class="field-label">身高</text>
+      <view class="num-input row">
+        <input class="num-input__el" type="digit" value="{{profile.height}}"
+               data-field="height" bindinput="onInput" placeholder="0" />
+        <text class="num-input__unit t-sm t-muted">cm</text>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="num-row row-between">
+      <text class="field-label">体重</text>
+      <view class="num-input row">
+        <input class="num-input__el" type="digit" value="{{profile.weight}}"
+               data-field="weight" bindinput="onInput" placeholder="0" />
+        <text class="num-input__unit t-sm t-muted">kg</text>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="num-row row-between">
+      <text class="field-label">年龄</text>
+      <view class="num-input row">
+        <input class="num-input__el" type="number" value="{{profile.age}}"
+               data-field="age" bindinput="onInput" placeholder="0" />
+        <text class="num-input__unit t-sm t-muted">岁</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每周运动次数 -->
+  <view class="card mt-3">
+    <view class="row-between">
+      <text class="field-label">每周运动次数</text>
+      <text class="t-sm t-mint">{{profile.weeklyExercise}} 次 / 周</text>
+    </view>
+    <view class="stepper row-between mt-3">
+      <view class="stepper__btn center" data-delta="-1" bindtap="stepExercise">−</view>
+      <view class="stepper__track grow">
+        <view class="stepper__fill" style="width:{{profile.weeklyExercise / 7 * 100}}%"></view>
+      </view>
+      <view class="stepper__btn center" data-delta="1" bindtap="stepExercise">+</view>
+    </view>
+    <text class="t-xs t-muted mt-2">用于估算日常活动消耗，0 次 = 久坐少动</text>
+  </view>
+
+  <!-- 身体目标 -->
+  <view class="card mt-3">
+    <text class="field-label">身体目标</text>
+    <view class="goals col gap-2 mt-2">
+      <view class="goal row {{profile.goal === item.key ? 'goal--on' : ''}}"
+            wx:for="{{goals}}" wx:key="key"
+            data-value="{{item.key}}" bindtap="pickGoal">
+        <text class="goal__emoji">{{item.emoji}}</text>
+        <view class="col ml-2 grow">
+          <text class="t-md t-bold">{{item.label}}</text>
+          <text class="t-xs t-muted">{{item.desc}}</text>
+        </view>
+        <view class="goal__check center">
+          <text wx:if="{{profile.goal === item.key}}">✓</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 实时预览 -->
+  <view class="card preview mt-3" wx:if="{{preview}}">
+    <text class="t-md t-bold">实时测算预览</text>
+    <view class="preview__grid mt-3">
+      <view class="preview__cell">
+        <text class="preview__num t-lg t-bold t-mint">{{preview.bmr}}</text>
+        <text class="t-xs t-muted">基础代谢 BMR</text>
+      </view>
+      <view class="preview__cell">
+        <text class="preview__num t-lg t-bold t-mint">{{preview.tdee}}</text>
+        <text class="t-xs t-muted">总消耗 kcal</text>
+      </view>
+      <view class="preview__cell">
+        <text class="preview__num t-lg t-bold t-mint">{{preview.targetCalories}}</text>
+        <text class="t-xs t-muted">推荐摄入 kcal</text>
+      </view>
+      <view class="preview__cell">
+        <text class="preview__num t-lg t-bold t-mint">{{preview.bmi}}</text>
+        <text class="t-xs t-muted">BMI · {{preview.bmiLabel}}</text>
+      </view>
+    </view>
+    <view class="mt-3 row wrap gap-2">
+      <text class="tag tag--protein">蛋白 {{preview.macros.protein}}g</text>
+      <text class="tag tag--carb">碳水 {{preview.macros.carb}}g</text>
+      <text class="tag tag--fat">脂肪 {{preview.macros.fat}}g</text>
+    </view>
+  </view>
+
+  <view class="save-bar">
+    <button class="btn btn--primary btn--block" bindtap="save" disabled="{{!canSave}}">保存并计算</button>
+  </view>
+</view>

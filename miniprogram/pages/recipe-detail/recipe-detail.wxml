@@ -1,0 +1,128 @@
+<view class="page-wrap" wx:if="{{recipe}}">
+
+  <!-- 头图 -->
+  <view class="cover">
+    <image class="cover__img" src="{{recipe.image}}" mode="aspectFill" />
+    <view class="cover__grad"></view>
+    <view class="cover__title col">
+      <text class="t-xl t-bold cover__name">{{recipe.name}}</text>
+      <view class="row wrap gap-1 mt-2">
+        <text class="cover__chip">{{recipe.mealLabel}}</text>
+        <text class="cover__chip">🔥 {{recipe.nutrition.kcal}} kcal</text>
+        <text class="cover__chip">⏱ {{recipe.cookTime}}分钟</text>
+        <text class="cover__chip">{{recipe.difficultyText}}</text>
+      </view>
+    </view>
+    <view class="cover__fav center {{isFav ? 'cover__fav--on' : ''}}" bindtap="toggleFav">
+      <text>{{isFav ? '❤️' : '🤍'}}</text>
+    </view>
+  </view>
+
+  <!-- 营养 -->
+  <view class="section-head">
+    <text class="section-title">营养成分</text>
+    <text class="section-more" wx:if="{{changed}}" bindtap="resetRecipe">恢复原食谱</text>
+  </view>
+  <view class="card">
+    <view class="row-between nut-top">
+      <view class="col center">
+        <text class="t-xl t-bold t-mint">{{recipe.nutrition.kcal}}</text>
+        <text class="t-xs t-muted">总热量 kcal</text>
+      </view>
+      <view class="strip-line"></view>
+      <view class="col center">
+        <text class="t-lg t-bold">{{recipe.nutrition.protein}}g</text>
+        <text class="t-xs t-muted">蛋白质</text>
+      </view>
+      <view class="strip-line"></view>
+      <view class="col center">
+        <text class="t-lg t-bold">{{recipe.nutrition.carb}}g</text>
+        <text class="t-xs t-muted">碳水</text>
+      </view>
+      <view class="strip-line"></view>
+      <view class="col center">
+        <text class="t-lg t-bold">{{recipe.nutrition.fat}}g</text>
+        <text class="t-xs t-muted">脂肪</text>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <macro-bar compact protein="{{recipe.nutrition.protein}}" carb="{{recipe.nutrition.carb}}"
+               fat="{{recipe.nutrition.fat}}"
+               proteinCal="{{recipe.nutrition.protein * 4}}" carbCal="{{recipe.nutrition.carb * 4}}"
+               fatCal="{{recipe.nutrition.fat * 9}}" />
+  </view>
+
+  <!-- 食材（可替换） -->
+  <view class="section-head">
+    <text class="section-title">食材清单</text>
+    <text class="t-xs t-muted">点食材可一键替换</text>
+  </view>
+  <view class="card ing-list">
+    <view class="ing row-between" wx:for="{{recipe.ingredients}}" wx:key="name"
+          data-index="{{index}}" bindtap="openSub">
+      <view class="row">
+        <view class="ing__dot"></view>
+        <text class="t-md">{{item.name}}</text>
+      </view>
+      <view class="row gap-2">
+        <text class="t-sm t-sub">{{item.text}}</text>
+        <text class="ing__swap">⇄</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤 -->
+  <view class="section-head">
+    <text class="section-title">详细步骤</text>
+  </view>
+  <view class="card">
+    <view class="step row" wx:for="{{recipe.steps}}" wx:key="*this">
+      <view class="step__no center">{{index + 1}}</view>
+      <text class="step__text t-sm grow">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 小贴士 -->
+  <view class="card--flat card mt-3" wx:if="{{recipe.tip}}">
+    <view class="row">
+      <text class="t-md">💡</text>
+      <text class="t-sm t-sub grow ml-2">{{recipe.tip}}</text>
+    </view>
+  </view>
+
+  <view class="bottom-actions">
+    <button class="btn {{isFav ? 'btn--ghost' : 'btn--primary'}} btn--block" bindtap="toggleFav">
+      {{isFav ? '已收藏' : '收藏这道菜'}}
+    </button>
+  </view>
+
+  <!-- ============ 替换面板 ============ -->
+  <view class="mask" wx:if="{{subVisible}}" bindtap="closeSub"></view>
+  <view class="sheet {{subVisible ? 'sheet--open' : ''}}" catchtap="noop">
+    <view class="sheet__handle"></view>
+    <view class="sheet__head">
+      <text class="t-md t-bold">替换「{{subOriginName}}」</text>
+      <text class="t-xs t-muted mt-1">已自动折算用量，让热量/营养尽量持平</text>
+    </view>
+    <view class="sheet__origin row-between">
+      <text class="t-sm t-sub">原食材 {{subOriginAmount}}g</text>
+      <text class="t-sm t-mint">{{subOriginKcal}} kcal</text>
+    </view>
+    <scroll-view scroll-y class="sheet__list">
+      <view class="sub-item row-between {{item.name === subOriginName ? 'sub-item--cur' : ''}}"
+            wx:for="{{substitutes}}" wx:key="name"
+            data-idx="{{index}}" bindtap="applySub">
+        <view class="col grow">
+          <text class="t-md t-bold">{{item.name}}</text>
+          <text class="t-xs t-muted mt-1">建议 {{item.amount}}{{item.unit}} · {{item.reason}}</text>
+        </view>
+        <view class="col center sub-item__right">
+          <text class="t-sm t-bold t-mint">{{item.nutrition.kcal}} kcal</text>
+          <text class="t-xs t-muted">
+            蛋{{item.nutrition.protein}} 碳{{item.nutrition.carb}} 脂{{item.nutrition.fat}}
+          </text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

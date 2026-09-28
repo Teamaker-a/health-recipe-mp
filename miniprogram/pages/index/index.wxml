@@ -1,0 +1,119 @@
+<view class="page-wrap page-wrap--flat">
+
+  <!-- 顶部问候 -->
+  <view class="hero row-between">
+    <view class="col">
+      <text class="hero__hello t-xl t-bold">你好呀 👋</text>
+      <text class="hero__sub t-sm t-muted">今天也要好好吃饭 · 健康一点</text>
+    </view>
+    <view class="hero__leaf center">
+      <text class="hero__leaf-emoji">🌿</text>
+    </view>
+  </view>
+
+  <!-- 未录入资料引导 -->
+  <view class="card card--tap cta mt-4" wx:if="{{!hasProfile}}" bindtap="goProfile">
+    <view class="row-between">
+      <view class="col grow">
+        <text class="t-lg t-bold">先录入身体数据</text>
+        <text class="t-sm t-muted mt-1">30秒生成你的专属营养方案</text>
+      </view>
+      <view class="cta__arrow center">
+        <text class="t-lg">→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已录入：今日营养概览 -->
+  <block wx:if="{{hasProfile}}">
+    <view class="card mt-4 dash" bindtap="goNutrition">
+      <view class="row-between">
+        <text class="t-md t-bold">今日营养目标</text>
+        <text class="t-sm t-mint">查看详情 →</text>
+      </view>
+      <view class="row mt-3">
+        <cal-ring value="{{nut.targetCalories}}" max="{{nut.tdee}}" size="220" thickness="18">
+          <text class="ring-kcal t-lg t-bold t-mint">{{nut.targetCalories}}</text>
+          <text class="t-xs t-muted">目标 kcal</text>
+        </cal-ring>
+        <view class="col grow gap-2 ml">
+          <view class="dash__item row-between">
+            <text class="t-sm t-sub">基础代谢 BMR</text>
+            <text class="t-sm t-bold">{{nut.bmr}} kcal</text>
+          </view>
+          <view class="dash__item row-between">
+            <text class="t-sm t-sub">每日总消耗</text>
+            <text class="t-sm t-bold">{{nut.tdee}} kcal</text>
+          </view>
+          <view class="dash__item row-between">
+            <text class="t-sm t-sub">蛋白 / 碳水 / 脂肪</text>
+            <text class="t-sm t-bold">{{nut.macros.protein}}/{{nut.macros.carb}}/{{nut.macros.fat}}g</text>
+          </view>
+          <view class="dash__item row-between">
+            <text class="t-sm t-sub">目标</text>
+            <text class="t-sm t-bold t-mint">{{nut.goalLabel}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 今日打卡进度 -->
+    <view class="card card--tap mt-3" bindtap="goCheckin">
+      <view class="row-between">
+        <view class="col">
+          <text class="t-md t-bold">今日饮食打卡</text>
+          <text class="t-sm t-muted mt-1">已完成 {{todayDone}} / {{todayTotal}} 餐</text>
+        </view>
+        <view class="progress-mini">
+          <view class="progress-mini__fill" style="width:{{todayDone / todayTotal * 100}}%"></view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 三大场景生成入口 -->
+  <view class="section-head">
+    <text class="section-title">一键生成食谱</text>
+    <text class="section-more" bindtap="goBrowse">食谱库 →</text>
+  </view>
+  <view class="scenes col gap-3">
+    <view class="scene card card--tap row-between" wx:for="{{scenes}}" wx:key="key"
+          data-scene="{{item.key}}" bindtap="goGenerate">
+      <view class="row">
+        <view class="scene__icon center scene__icon--{{item.color}}">
+          <text class="scene__emoji">{{item.emoji}}</text>
+        </view>
+        <view class="col ml">
+          <text class="t-md t-bold">{{item.label}}</text>
+          <text class="t-xs t-muted mt-1">{{item.desc}}</text>
+        </view>
+      </view>
+      <text class="t-lg t-mint">›</text>
+    </view>
+  </view>
+
+  <!-- 周计划快捷入口 -->
+  <view class="card card--tap week-entry mt-3 row-between" bindtap="goWeekPlan">
+    <view class="row">
+      <view class="week-entry__icon center">
+        <text class="t-lg">🗓️</text>
+      </view>
+      <view class="col ml">
+        <text class="t-md t-bold">生成一周食谱计划</text>
+        <text class="t-xs t-muted mt-1">7 天不重样 · 自动配好三餐+加餐</text>
+      </view>
+    </view>
+    <text class="t-lg t-white">›</text>
+  </view>
+
+  <!-- 推荐食谱 -->
+  <view class="section-head">
+    <text class="section-title">为你推荐</text>
+    <text class="section-more" bindtap="goBrowse">更多 →</text>
+  </view>
+  <recipe-card wx:for="{{recommend}}" wx:key="id" recipe="{{item}}" bindtap="goRecipe" />
+
+  <view class="foot-tip t-xs t-muted t-center mt-4">
+    轻食谱 · 用数据吃得更健康
+  </view>
+</view>

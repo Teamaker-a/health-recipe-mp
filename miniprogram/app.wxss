@@ -1,0 +1,199 @@
+@import "./styles/tokens.wxss";
+
+/* ============================================================
+ * 全局基础样式 - 轻食谱
+ * ============================================================ */
+page {
+  background-color: var(--c-bg);
+  color: var(--c-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--f-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+view, text, button, input, textarea, scroll-view {
+  box-sizing: border-box;
+}
+
+/* ---- 布局工具类 ---- */
+.page-wrap {
+  min-height: 100vh;
+  padding: var(--s-4) var(--s-4) 160rpx;
+}
+.page-wrap--flat {
+  padding-bottom: var(--s-5);
+}
+.row { display: flex; flex-direction: row; align-items: center; }
+.row-between { display: flex; flex-direction: row; align-items: center; justify-content: space-between; }
+.col { display: flex; flex-direction: column; }
+.center { display: flex; align-items: center; justify-content: center; }
+.grow { flex: 1; }
+.wrap { flex-wrap: wrap; }
+
+.gap-1 { gap: var(--s-1); }
+.gap-2 { gap: var(--s-2); }
+.gap-3 { gap: var(--s-3); }
+.gap-4 { gap: var(--s-4); }
+
+.mt-1 { margin-top: var(--s-1); }
+.mt-2 { margin-top: var(--s-2); }
+.mt-3 { margin-top: var(--s-3); }
+.mt-4 { margin-top: var(--s-4); }
+.mt-5 { margin-top: var(--s-5); }
+.mb-2 { margin-bottom: var(--s-2); }
+.mb-3 { margin-bottom: var(--s-3); }
+.mb-4 { margin-bottom: var(--s-4); }
+
+/* ---- 文字 ---- */
+.t-xs { font-size: var(--f-xs); }
+.t-sm { font-size: var(--f-sm); }
+.t-md { font-size: var(--f-md); }
+.t-lg { font-size: var(--f-lg); }
+.t-xl { font-size: var(--f-xl); }
+.t-2xl { font-size: var(--f-2xl); }
+.t-muted { color: var(--c-ink-3); }
+.t-sub { color: var(--c-ink-2); }
+.t-mint { color: var(--c-mint-500); }
+.t-bold { font-weight: 600; }
+.t-center { text-align: center; }
+.t-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.t-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ---- 卡片 ---- */
+.card {
+  background: var(--c-surface);
+  border-radius: var(--r-lg);
+  padding: var(--s-4);
+  box-shadow: var(--sh-1);
+  border: 2rpx solid rgba(255, 255, 255, 0.9);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.card--tap:active {
+  transform: scale(0.985);
+  box-shadow: var(--sh-2);
+}
+.card--flat {
+  background: var(--c-mint-50);
+  box-shadow: none;
+  border-color: var(--c-mint-100);
+}
+
+/* ---- 区块标题 ---- */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--s-5) 0 var(--s-3);
+}
+.section-title {
+  font-size: var(--f-lg);
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+  position: relative;
+  padding-left: var(--s-3);
+}
+.section-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 32rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(180deg, var(--c-mint-300), var(--c-mint-500));
+}
+.section-more {
+  font-size: var(--f-sm);
+  color: var(--c-mint-500);
+}
+
+/* ---- 按钮 ---- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 92rpx;
+  border-radius: var(--r-pill);
+  font-size: var(--f-md);
+  font-weight: 600;
+  border: none;
+  transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+}
+.btn::after { border: none; }
+.btn:active { transform: scale(0.97); opacity: 0.92; }
+.btn--primary {
+  background: linear-gradient(135deg, var(--c-mint-400), var(--c-mint-500));
+  color: #fff;
+  box-shadow: 0 12rpx 28rpx rgba(79, 182, 160, 0.28);
+}
+.btn--ghost {
+  background: var(--c-mint-50);
+  color: var(--c-mint-600);
+  border: 2rpx solid var(--c-mint-200);
+}
+.btn--block { width: 100%; }
+.btn--sm {
+  height: 64rpx;
+  font-size: var(--f-sm);
+  padding: 0 var(--s-4);
+  width: auto;
+}
+
+/* ---- 标签 / 药丸 ---- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 18rpx;
+  border-radius: var(--r-pill);
+  font-size: var(--f-xs);
+  background: var(--c-mint-50);
+  color: var(--c-mint-600);
+  line-height: 1.4;
+}
+.tag--protein { background: rgba(111, 183, 224, 0.14); color: #4A93BC; }
+.tag--carb    { background: rgba(240, 195, 109, 0.18); color: #B98A2B; }
+.tag--fat     { background: rgba(232, 160, 138, 0.16); color: #C0714F; }
+
+/* ---- 分隔线 ---- */
+.divider {
+  height: 2rpx;
+  background: var(--c-line);
+  margin: var(--s-3) 0;
+}
+
+/* ---- 空状态 ---- */
+.empty {
+  padding: 120rpx var(--s-4);
+  text-align: center;
+  color: var(--c-ink-3);
+}
+.empty__icon {
+  font-size: 96rpx;
+  opacity: 0.5;
+  margin-bottom: var(--s-3);
+}
+
+/* ---- 骨架 / 淡入 ---- */
+.fade-in {
+  animation: fadeIn var(--dur) var(--ease) both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- 安全区 ---- */
+.safe-bottom {
+  height: env(safe-area-inset-bottom);
+}

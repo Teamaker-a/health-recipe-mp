@@ -1,0 +1,90 @@
+.hero { background: linear-gradient(160deg, #FBFFFD, #EFF9F5); }
+.streak {
+  padding: var(--s-2) var(--s-3);
+  background: #fff;
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-1);
+  min-width: 180rpx;
+}
+.streak__num { line-height: 1.1; color: var(--c-mint-500); }
+.hero__bar {
+  height: 18rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-line);
+  overflow: hidden;
+}
+.hero__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--c-mint-300), var(--c-mint-500));
+  transition: width 400ms var(--ease);
+}
+
+.week__day { flex: 1; gap: 6rpx; }
+.week__dot {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: var(--c-bg);
+  color: var(--c-ink-2);
+  transition: all var(--dur) var(--ease);
+}
+.week__dot--0 { background: var(--c-bg); color: var(--c-ink-3); }
+.week__dot--1 { background: var(--c-mint-100); color: var(--c-mint-600); }
+.week__dot--2 { background: var(--c-mint-200); color: var(--c-mint-600); }
+.week__dot--3 { background: var(--c-mint-400); color: #fff; }
+.week__dot--today { border: 3rpx solid var(--c-mint-400); }
+.week__dot-num { font-size: var(--f-sm); font-weight: 600; }
+
+.meal { padding: var(--s-3) var(--s-4); }
+.meal--done { background: linear-gradient(160deg, #F4FCF9, #EAF7F3); border-color: var(--c-mint-100); }
+.meal__icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: var(--r-md);
+  background: var(--c-mint-50);
+}
+.meal__emoji { font-size: 38rpx; }
+.meal__check {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  border: 3rpx solid var(--c-line);
+  color: #fff;
+  font-size: var(--f-sm);
+  transition: all var(--dur) var(--ease);
+}
+.meal__check--on {
+  background: var(--c-mint-400);
+  border-color: var(--c-mint-400);
+}
+.ml-2 { margin-left: var(--s-2); }
+
+.note {
+  width: 100%;
+  min-height: 140rpx;
+  font-size: var(--f-sm);
+  line-height: 1.6;
+}
+.ph { color: var(--c-ink-3); }
+
+/* 摄入进度对比 */
+.cmp-item { margin-bottom: var(--s-3); }
+.cmp-item:last-child { margin-bottom: 0; }
+.cmp-bar {
+  height: 16rpx;
+  border-radius: var(--r-pill);
+  background: var(--c-line);
+  overflow: hidden;
+  margin: 10rpx 0 6rpx;
+}
+.cmp-bar__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  transition: width 500ms var(--ease);
+  min-width: 4rpx;
+}
+.cmp-bar__fill--kcal { background: linear-gradient(90deg, var(--c-mint-300), var(--c-mint-500)); }
+.cmp-bar__fill--p { background: linear-gradient(90deg, #8FC9E8, var(--c-protein)); }
+.cmp-bar__fill--c { background: linear-gradient(90deg, #F5D89B, var(--c-carb)); }
+.cmp-bar__fill--f { background: linear-gradient(90deg, #F0BBA8, var(--c-fat)); }

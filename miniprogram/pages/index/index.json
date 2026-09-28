@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "轻食谱",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "recipe-card": "/components/recipe-card/recipe-card",
+    "cal-ring": "/components/cal-ring/cal-ring"
+  }
+}

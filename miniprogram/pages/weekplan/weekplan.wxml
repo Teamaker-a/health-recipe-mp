@@ -1,0 +1,90 @@
+<view class="page-wrap page-wrap--flat">
+
+  <!-- 场景切换 -->
+  <view class="tabs row">
+    <view class="tabs__item {{scene === item.key ? 'tabs__item--on' : ''}}"
+          wx:for="{{sceneTabs}}" wx:key="key"
+          data-scene="{{item.key}}" bindtap="switchScene">
+      <text class="tabs__emoji">{{item.emoji}}</text>
+      <text class="tabs__label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 日均营养 -->
+  <view class="card avg mt-3" wx:if="{{avg}}">
+    <view class="row-between">
+      <text class="t-md t-bold">本周日均营养</text>
+      <text class="t-xs t-muted" wx:if="{{target}}">目标 {{target.targetCalories}} kcal</text>
+    </view>
+    <view class="row mt-3 avg__row">
+      <view class="col center grow">
+        <text class="t-xl t-bold t-mint">{{avg.kcal}}</text>
+        <text class="t-xs t-muted">热量 kcal</text>
+      </view>
+      <view class="col center grow">
+        <text class="t-lg t-bold">{{avg.protein}}g</text>
+        <text class="t-xs t-muted">蛋白</text>
+      </view>
+      <view class="col center grow">
+        <text class="t-lg t-bold">{{avg.carb}}g</text>
+        <text class="t-xs t-muted">碳水</text>
+      </view>
+      <view class="col center grow">
+        <text class="t-lg t-bold">{{avg.fat}}g</text>
+        <text class="t-xs t-muted">脂肪</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 星期选择 -->
+  <scroll-view scroll-x class="daytabs" enhanced show-scrollbar="{{false}}">
+    <view class="daytabs__inner row">
+      <view class="daytab {{activeDay === index ? 'daytab--on' : ''}} {{item.isToday ? 'daytab--today' : ''}}"
+            wx:for="{{days}}" wx:key="date"
+            data-idx="{{index}}" bindtap="pickDay">
+        <text class="daytab__w">{{item.weekday}}</text>
+        <text class="daytab__d">{{item.date}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 当天详情 -->
+  <block wx:if="{{days.length}}">
+    <view class="card day-sum" wx:for="{{days}}" wx:key="date" wx:if="{{activeDay === index}}">
+      <view class="row-between">
+        <text class="t-md t-bold">{{item.weekday}} · {{item.date}}</text>
+        <text class="t-sm t-bold t-mint">{{item.total.kcal}} kcal</text>
+      </view>
+      <view class="row wrap gap-2 mt-2">
+        <text class="tag tag--protein">蛋白 {{item.total.protein}}g</text>
+        <text class="tag tag--carb">碳水 {{item.total.carb}}g</text>
+        <text class="tag tag--fat">脂肪 {{item.total.fat}}g</text>
+      </view>
+    </view>
+
+    <view class="meal-block" wx:for="{{days}}" wx:key="date" wx:if="{{activeDay === index}}">
+      <view wx:for="{{item.meals}}" wx:for-item="m" wx:key="key">
+        <view class="day-meal row-between">
+          <text class="day-meal__icon">{{m.icon}}</text>
+          <text class="t-sm t-sub nowrap">{{m.label}}</text>
+          <text class="t-xs t-muted nowrap">{{m.calories}} kcal</text>
+        </view>
+        <view class="dish card card--tap row" data-id="{{m.recipe.id}}" bindtap="goDetail">
+          <image class="dish__thumb" src="{{m.recipe.image}}" mode="aspectFill" lazy-load />
+          <view class="dish__main grow col">
+            <text class="t-md t-bold t-ellipsis">{{m.recipe.name}}</text>
+            <view class="row gap-2 mt-2">
+              <text class="t-xs t-muted">⏱ {{m.recipe.cookTime}}分钟</text>
+              <text class="t-xs t-muted">蛋{{m.nutrition.protein}} 碳{{m.nutrition.carb}} 脂{{m.nutrition.fat}}</text>
+            </view>
+          </view>
+          <text class="dish__chev">›</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view class="foot-tip t-xs t-muted t-center mt-4">
+    一周计划已保存 · 每天可点开查看详情
+  </view>
+</view>

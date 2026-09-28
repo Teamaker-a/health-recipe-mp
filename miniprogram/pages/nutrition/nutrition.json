@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "营养测算",
+  "usingComponents": {
+    "cal-ring": "/components/cal-ring/cal-ring",
+    "macro-bar": "/components/macro-bar/macro-bar"
+  }
+}

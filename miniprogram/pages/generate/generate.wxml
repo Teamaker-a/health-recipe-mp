@@ -1,0 +1,105 @@
+<view class="page-wrap page-wrap--flat">
+
+  <!-- 场景切换 -->
+  <view class="tabs row">
+    <view class="tabs__item {{scene === item.key ? 'tabs__item--on' : ''}}"
+          wx:for="{{sceneTabs}}" wx:key="key"
+          data-scene="{{item.key}}" bindtap="switchScene">
+      <text class="tabs__emoji">{{item.emoji}}</text>
+      <text class="tabs__label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 未录入提示 -->
+  <view class="card card--tap mt-3 row-between" wx:if="{{!hasProfile}}" bindtap="goProfile">
+    <text class="t-sm t-sub">未录入身体数据，营养对比不可用 · 点击去录入</text>
+    <text class="t-mint">→</text>
+  </view>
+
+  <!-- 方案汇总 -->
+  <view class="card summary mt-3" wx:if="{{plan && !loading}}">
+    <view class="row-between">
+      <text class="t-md t-bold">{{plan.sceneLabel}} · 一日方案</text>
+      <text class="t-xs t-muted">点击可重生成</text>
+    </view>
+    <view class="row mt-3 summary__row">
+      <view class="col center grow">
+        <text class="t-xl t-bold t-mint">{{summary.kcal}}</text>
+        <text class="t-xs t-muted">总热量 kcal</text>
+      </view>
+      <view class="col center grow">
+        <text class="t-lg t-bold">{{summary.protein}}g</text>
+        <text class="t-xs t-muted">蛋白质</text>
+      </view>
+      <view class="col center grow">
+        <text class="t-lg t-bold">{{summary.carb}}g</text>
+        <text class="t-xs t-muted">碳水</text>
+      </view>
+      <view class="col center grow">
+        <text class="t-lg t-bold">{{summary.fat}}g</text>
+        <text class="t-xs t-muted">脂肪</text>
+      </view>
+    </view>
+
+    <view class="mt-3" wx:if="{{target}}">
+      <macro-bar compact protein="{{summary.protein}}" carb="{{summary.carb}}" fat="{{summary.fat}}"
+                 proteinCal="{{summary.protein * 4}}" carbCal="{{summary.carb * 4}}" fatCal="{{summary.fat * 9}}" />
+      <view class="diff-row row wrap gap-2 mt-3">
+        <text class="tag {{diff.kcal > 0 ? 'tag--carb' : 'tag--protein'}}">
+          热量 {{diff.kcal > 0 ? '+' : ''}}{{diff.kcal}} kcal
+        </text>
+        <text class="tag">蛋白 {{diff.protein > 0 ? '+' : ''}}{{diff.protein}}g</text>
+        <text class="tag">碳水 {{diff.carb > 0 ? '+' : ''}}{{diff.carb}}g</text>
+        <text class="tag">脂肪 {{diff.fat > 0 ? '+' : ''}}{{diff.fat}}g</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载态 -->
+  <view class="loading center col" wx:if="{{loading}}">
+    <view class="loading__dot"></view>
+    <text class="t-sm t-muted mt-3">正在为你智能搭配…</text>
+  </view>
+
+  <!-- 三餐列表 -->
+  <block wx:if="{{plan && !loading}}">
+    <view class="meal-block" wx:for="{{plan.meals}}" wx:key="key">
+      <view class="meal-head row-between">
+        <view class="row">
+          <text class="meal-head__icon">{{item.icon}}</text>
+          <text class="meal-head__title t-md t-bold">{{item.label}}</text>
+        </view>
+        <text class="t-xs t-muted">建议 {{item.calories}} kcal</text>
+      </view>
+
+      <view class="dish card card--tap" data-id="{{item.recipe.id}}" bindtap="goDetail">
+        <view class="dish__row row">
+          <image class="dish__thumb" src="{{item.recipe.image}}" mode="aspectFill" lazy-load />
+          <view class="dish__main grow col">
+            <view class="row-between">
+              <text class="t-md t-bold grow t-ellipsis">{{item.recipe.name}}</text>
+              <text class="dish__chev">›</text>
+            </view>
+            <view class="row wrap gap-1 mt-2">
+              <text class="tag tag--soft">⏱ {{item.recipe.cookTime}}分钟</text>
+              <text class="tag tag--soft">{{item.recipe.difficultyText}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="row-between mt-3 dish__nut">
+          <text class="t-sm t-bold t-mint">{{item.nutrition.kcal}} kcal</text>
+          <view class="row gap-2">
+            <text class="t-xs t-muted">蛋 {{item.nutrition.protein}}g</text>
+            <text class="t-xs t-muted">碳 {{item.nutrition.carb}}g</text>
+            <text class="t-xs t-muted">脂 {{item.nutrition.fat}}g</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-actions">
+      <button class="btn btn--ghost" bindtap="regenerate">换一批</button>
+      <button class="btn btn--primary grow" bindtap="saveAll">收藏整套</button>
+    </view>
+  </block>
+</view>
