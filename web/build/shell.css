@@ -1,0 +1,119 @@
+/* shell.css - H5 外壳样式（导航栏 / TabBar / Toast / 页面容器）
+ * 这部分不属于小程序样式，是网页端外壳。尺寸单位用 px（等效 375 逻辑宽）。 */
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #EEF4F1;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  color: #26312D;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #F7FBF9;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- 顶部导航栏 ---- */
+.mp-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F7FBF9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  flex: none;
+}
+.mp-navbar__title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ---- 视图区 ---- */
+#mp-view {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mp-page { padding-bottom: 24px; }
+body.has-tabbar .mp-page { padding-bottom: 76px; }
+
+/* page 根元素在小程序里是 <page>，这里映射为容器 */
+.mp-page > div:first-child { min-height: auto; }
+
+/* ---- TabBar ---- */
+.mp-tabbar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  display: none;
+  background: #FDFEFD;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 30;
+}
+body.has-tabbar .mp-tabbar { display: flex; }
+.mp-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0 14px;
+  font-size: 12px;
+  color: #9AA8A2;
+  cursor: pointer;
+  user-select: none;
+  transition: color 160ms;
+}
+.mp-tab--on { color: #4FB6A0; font-weight: 600; }
+
+/* ---- 图片兜底 ---- */
+img { display: block; }
+
+/* ---- Toast ---- */
+#wx-toast-host {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wx-toast {
+  min-width: 120px;
+  max-width: 70%;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 200ms, transform 200ms;
+  font-size: 14px;
+}
+.wx-toast--in { opacity: 1; transform: translateY(0); }
+.wx-toast__icon { font-size: 22px; margin-bottom: 4px; }
+.wx-toast__text { line-height: 1.4; }
+
+.mp-missing { padding: 40px; text-align: center; color: #9AA8A2; }
+
+/* 组件外层不引入多余样式 */
+.mp-component { display: block; }
+
+/* 自定义组件内部 slot（本项目 cal-ring 用于显示文字） */
+.mp-slot { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.mp-component--cal-ring { position: relative; display: inline-flex; }

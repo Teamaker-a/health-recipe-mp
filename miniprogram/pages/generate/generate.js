@@ -46,9 +46,13 @@ Page({
         fat: +(summary.fat - target.macros.fat).toFixed(1)
       };
     }
-    // 附加每条食谱营养
+    // 附加每条食谱营养，并按目标热量给出建议分配（早餐25%/午餐35%/晚餐30%/加餐10%）
+    const ratios = { breakfast: 0.25, lunch: 0.35, dinner: 0.30, snack: 0.10 };
     plan.meals = plan.meals.map(m => Object.assign({}, m, {
-      nutrition: rs.calcRecipeNutrition(m.recipe)
+      nutrition: rs.calcRecipeNutrition(m.recipe),
+      calories: target
+        ? Math.round(target.targetCalories * (ratios[m.key] || m.ratio || 0.25))
+        : Math.round(rs.calcRecipeNutrition(m.recipe).kcal)
     }));
 
     setTimeout(() => {

@@ -290,7 +290,8 @@ check('stats 页', () => {
 });
 
 check('favorites 页', () => {
-  store.toggleFavorite('b01');
+  // 确保 b01 处于已收藏状态（toggleFavorite 是切换语义，需先判定）
+  if (!store.isFavorite('b01')) store.toggleFavorite('b01');
   const p = makePage('pages/favorites/favorites.js');
   if (!p.data.list.some(x => x.id === 'b01')) {
     throw new Error('收藏未展示，当前收藏=' + JSON.stringify(store.getFavorites()) + ' 渲染=' + p.data.list.length);

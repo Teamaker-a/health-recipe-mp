@@ -1,0 +1,16 @@
+{
+  "name": "health-recipe-mp",
+  "version": "1.1.0",
+  "private": true,
+  "description": "轻食谱 · 智能健康食谱管理平台（微信小程序 + H5 网页版）",
+  "scripts": {
+    "build:web": "node tools/build.js",
+    "serve:web": "node tools/serve.js",
+    "test:web": "node tools/web-test.js",
+    "test:mp": "node docs/smoke-test.js",
+    "test": "node docs/smoke-test.js && node tools/web-test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

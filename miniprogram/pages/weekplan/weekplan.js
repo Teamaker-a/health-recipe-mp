@@ -39,6 +39,8 @@ Page({
   build() {
     const wk = rs.generateWeekPlan(this.data.scene);
     const avg = rs.weekPlanSummary(wk);
+    const target = this.data.target;
+    const ratios = { breakfast: 0.25, lunch: 0.35, dinner: 0.30, snack: 0.10 };
     // 给每天附加营养汇总
     const days = wk.days.map(d => {
       const total = { kcal: 0, protein: 0, carb: 0, fat: 0 };
@@ -46,7 +48,12 @@ Page({
         const n = rs.calcRecipeNutrition(m.recipe);
         total.kcal += n.kcal; total.protein += n.protein;
         total.carb += n.carb; total.fat += n.fat;
-        return Object.assign({}, m, { nutrition: n });
+        return Object.assign({}, m, {
+          nutrition: n,
+          calories: target
+            ? Math.round(target.targetCalories * (ratios[m.key] || m.ratio || 0.25))
+            : Math.round(n.kcal)
+        });
       });
       total.kcal = Math.round(total.kcal);
       total.protein = +total.protein.toFixed(1);

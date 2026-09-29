@@ -1,3 +1,9 @@
 node_modules/
 .DS_Store
 *.log
+
+# 测试/构建的临时产物
+.cache/
+playwright-report/
+test-results/
+npm-debug.log*
