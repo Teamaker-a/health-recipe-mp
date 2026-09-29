@@ -1301,6 +1301,164 @@ function __registerComponent(name, factory){
   if (captured) window.__COMPONENT_DEFS__[name] = captured;
 }
 
+__registerComponentTemplate("cal-ring", function __tpl(data, h, page, __scope) {
+  var __s = __scope || data || {};
+  with (__s) {
+    return [h.el("view", {}, "ring-wrap", ("width:" + (size) + "rpx;height:" + (size) + "rpx;"), [h.el("canvas", {"type": "2d","id": "ring"}, "ring-canvas", undefined, []),h.el("view", {}, "ring-inner center col", undefined, [h.el("slot", {}, undefined, undefined, [])]),h.text("\n")]),h.text("\n")];
+  }
+});
+__registerComponent("cal-ring", function(__req){
+/**
+ * cal-ring - 热量环形进度（Canvas 2D 实现，兼容性好）
+ */
+Component({
+  properties: {
+    value: { type: Number, value: 0 },       // 当前值
+    max: { type: Number, value: 2000 },      // 目标值
+    size: { type: Number, value: 380 },      // 尺寸 rpx
+    color: { type: String, value: '#4FB6A0' },
+    trackColor: { type: String, value: '#EAF1EE' },
+    thickness: { type: Number, value: 16 }   // 线宽（相对尺寸比例 * size）
+  },
+  data: {
+    displayPct: 0
+  },
+  observers: {
+    'value, max': function (v, m) {
+      const total = m || 1;
+      const pct = Math.min(1.3, Math.max(0, v / total));
+      this.setData({ displayPct: Math.round((v / total) * 100) });
+      this._ratio = pct;
+      this.draw();
+    }
+  },
+  lifetimes: {
+    ready() {
+      this.initCanvas();
+    }
+  },
+  methods: {
+    initCanvas() {
+      const q = wx.createSelectorQuery().in(this);
+      q.select('#ring').fields({ node: true, size: true }).exec(res => {
+        if (!res || !res[0]) return;
+        const node = res[0].node;
+        const ctx = node.getContext('2d');
+        const dpr = wx.getSystemInfoSync().pixelRatio || 2;
+        node.width = res[0].width * dpr;
+        node.height = res[0].height * dpr;
+        ctx.scale(dpr, dpr);
+        this._node = node;
+        this._ctx = ctx;
+        this._w = res[0].width;
+        this._h = res[0].height;
+        this.draw();
+      });
+    },
+    draw() {
+      const ctx = this._ctx;
+      if (!ctx) return;
+      const w = this._w;
+      const h = this._h;
+      const cx = w / 2;
+      const cy = h / 2;
+      const lw = Math.max(6, (this.data.thickness / 380) * w);
+      const r = Math.min(w, h) / 2 - lw / 2 - 2;
+      const ratio = this._ratio == null ? 0 : this._ratio;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // 轨道
+      ctx.beginPath();
+      ctx.lineWidth = lw;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = this.data.trackColor;
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 进度
+      if (ratio > 0) {
+        const start = -Math.PI / 2;
+        const end = start + Math.PI * 2 * Math.min(ratio, 1);
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#6FCBB6');
+        grad.addColorStop(1, this.data.color);
+        ctx.beginPath();
+        ctx.lineWidth = lw;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = grad;
+        ctx.arc(cx, cy, r, start, end);
+        ctx.stroke();
+      }
+    }
+  }
+});
+
+});
+__registerComponentTemplate("macro-bar", function __tpl(data, h, page, __scope) {
+  var __s = __scope || data || {};
+  with (__s) {
+    return [h.el("view", {}, ("macro " + (compact ? 'macro--compact' : '')), undefined, [((!compact) ? h.el("view", {}, "macro__head row-between", undefined, [h.el("text", {}, "t-sm t-sub", undefined, [h.text("三大营养素供能比")]),h.el("text", {}, "t-xs t-muted", undefined, [h.text(("蛋白 " + (pctP) + "% · 碳水 " + (pctC) + "% · 脂肪 " + (pctF) + "%"))])]) : null),h.el("view", {}, "macro__bar", undefined, [h.el("view", {}, "macro__seg macro__seg--p", ("width:" + (pctP) + "%"), []),h.el("view", {}, "macro__seg macro__seg--c", ("width:" + (pctC) + "%"), []),h.el("view", {}, "macro__seg macro__seg--f", ("width:" + (pctF) + "%"), [])]),h.el("view", {}, ("macro__legend row wrap gap-3 " + (compact ? 'mt-2' : 'mt-3')), undefined, [h.el("view", {}, "macro__item row gap-1", undefined, [h.el("view", {}, "macro__dot macro__dot--p", undefined, []),h.el("text", {}, "t-sm", undefined, [h.text("蛋白质")]),h.el("text", {}, "t-sm t-bold", undefined, [h.text(((protein) + "g"))])]),h.el("view", {}, "macro__item row gap-1", undefined, [h.el("view", {}, "macro__dot macro__dot--c", undefined, []),h.el("text", {}, "t-sm", undefined, [h.text("碳水")]),h.el("text", {}, "t-sm t-bold", undefined, [h.text(((carb) + "g"))])]),h.el("view", {}, "macro__item row gap-1", undefined, [h.el("view", {}, "macro__dot macro__dot--f", undefined, []),h.el("text", {}, "t-sm", undefined, [h.text("脂肪")]),h.el("text", {}, "t-sm t-bold", undefined, [h.text(((fat) + "g"))])])]),h.text("\n")]),h.text("\n")];
+  }
+});
+__registerComponent("macro-bar", function(__req){
+Component({
+  properties: {
+    protein: { type: Number, value: 0 },
+    carb: { type: Number, value: 0 },
+    fat: { type: Number, value: 0 },
+    proteinCal: { type: Number, value: 0 },
+    carbCal: { type: Number, value: 0 },
+    fatCal: { type: Number, value: 0 },
+    compact: { type: Boolean, value: false }
+  },
+  data: {
+    pctP: 0, pctC: 0, pctF: 0
+  },
+  observers: {
+    'proteinCal, carbCal, fatCal': function (p, c, f) {
+      const total = (p + c + f) || 1;
+      this.setData({
+        pctP: Math.round((p / total) * 100),
+        pctC: Math.round((c / total) * 100),
+        pctF: Math.round((f / total) * 100)
+      });
+    }
+  }
+});
+
+});
+__registerComponentTemplate("recipe-card", function __tpl(data, h, page, __scope) {
+  var __s = __scope || data || {};
+  with (__s) {
+    return [h.el("view", {"onclick": h.ev("onTap")}, "rcard card card--tap", undefined, [h.el("view", {}, "rcard__cover", undefined, [h.el("image", {"mode": "aspectFill","src": (recipe.image),"lazy-load": (true)}, "rcard__img", undefined, []),((showMeal) ? h.el("view", {}, "rcard__badge", undefined, [h.text((recipe.mealLabel))]) : null),h.el("view", {}, "rcard__kcal-badge", undefined, [h.el("text", {}, "rcard__kcal-num", undefined, [h.text((recipe.nutrition.kcal))]),h.el("text", {}, "rcard__kcal-unit", undefined, [h.text("kcal")])])]),h.el("view", {}, "rcard__body", undefined, [h.el("text", {}, "rcard__name t-md t-bold t-ellipsis", undefined, [h.text((recipe.name))]),h.el("view", {}, "row wrap gap-1 mt-2", undefined, [h.el("text", {}, "tag tag--soft", undefined, [h.text(("⏱ " + (recipe.cookTime) + "分钟"))]),h.el("text", {}, "tag tag--soft", undefined, [h.text((recipe.difficultyText))])]),h.el("view", {}, "rcard__macros row gap-2 mt-2", undefined, [h.el("text", {}, "tag tag--protein", undefined, [h.text(("蛋白 " + (recipe.nutrition.protein) + "g"))]),h.el("text", {}, "tag tag--carb", undefined, [h.text(("碳水 " + (recipe.nutrition.carb) + "g"))]),h.el("text", {}, "tag tag--fat", undefined, [h.text(("脂肪 " + (recipe.nutrition.fat) + "g"))])])]),h.text("\n")]),h.text("\n")];
+  }
+});
+__registerComponent("recipe-card", function(__req){
+Component({
+  properties: {
+    recipe: { type: Object, value: {} },
+    showMeal: { type: Boolean, value: true }
+  },
+  data: {
+    emoji: '🥗'
+  },
+  observers: {
+    recipe(r) {
+      if (r && r.meals) {
+        const map = { breakfast: '🌅', lunch: '☀️', dinner: '🌙', snack: '🍎' };
+        this.setData({ emoji: map[r.meals] || '🥗' });
+      }
+    }
+  },
+  methods: {
+    onTap() {
+      this.triggerEvent('tap', { id: this.data.recipe.id });
+    }
+  }
+});
+
+});
 
 // 把组件模板注册成自定义标签的渲染函数
 // 组件内部使用 properties 接收父级传入的 props；此处直接以「传入 props + 组件 data」为作用域渲染
@@ -1317,12 +1475,12 @@ function __registerComponent(name, factory){
       // 组件根：把 children（slot 内容）附加进去
       var wrap = document.createElement("div");
       wrap.className = "mp-component mp-component--" + name;
-      var dom = window.__MP.__createNode(inner);
+      var dom = window.__MP.createNode(inner);
       wrap.appendChild(dom);
       if (node.children && node.children.length) {
         var slot = document.createElement("div");
         slot.className = "mp-slot";
-        node.children.forEach(function(c){ slot.appendChild(window.__MP.__createNode(c)); });
+        node.children.forEach(function(c){ slot.appendChild(window.__MP.createNode(c)); });
         wrap.appendChild(slot);
       }
       return wrap;

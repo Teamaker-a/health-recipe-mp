@@ -64,7 +64,18 @@ function inlineImports(cssPath, seen) {
 function convertWXSS(cssPath) {
   let css = inlineImports(cssPath);
   css = rpxToPx(css);
+  css = wxSelectorsToHTML(css);
   return css;
+}
+
+/**
+ * 小程序标签选择器 → HTML 等价物
+ * 关键：`page` 在小程序里代表页面根节点（设计变量都挂在它上面），
+ * 浏览器没有该元素，必须改写为 :root / html / body，否则所有 var(--x) 失效。
+ */
+function wxSelectorsToHTML(css) {
+  // page { ... } / page,xxx { ... } → :root,body
+  return css.replace(/(^|[\s,}])page(?=\s*(,|\{))/g, (m, pre) => pre + ':root,body');
 }
 
 /* ---------------- Page / Component JS 包装 ---------------- */
@@ -262,12 +273,12 @@ function build() {
     '      // 组件根：把 children（slot 内容）附加进去',
     '      var wrap = document.createElement("div");',
     '      wrap.className = "mp-component mp-component--" + name;',
-    '      var dom = window.__MP.__createNode(inner);',
+    '      var dom = window.__MP.createNode(inner);',
     '      wrap.appendChild(dom);',
     '      if (node.children && node.children.length) {',
     '        var slot = document.createElement("div");',
     '        slot.className = "mp-slot";',
-    '        node.children.forEach(function(c){ slot.appendChild(window.__MP.__createNode(c)); });',
+    '        node.children.forEach(function(c){ slot.appendChild(window.__MP.createNode(c)); });',
     '        wrap.appendChild(slot);',
     '      }',
     '      return wrap;',
@@ -282,6 +293,7 @@ function build() {
     moduleDefs.join('\n'),
     registry,
     compRegistry,
+    componentRegs.join('\n'),   // 组件模板 + 组件 JS 注册调用
     compRenderer,
     pageRegs.join('\n'),
     tail

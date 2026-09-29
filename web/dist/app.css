@@ -5,7 +5,7 @@
  * 主色调：薄荷绿 + 米白，低饱和、健康治愈风
  * 所有页面通过 app.wxss 引入本文件
  * ============================================================ */
-page {
+:root,body {
   /* ---- 主色：薄荷绿系 ---- */
   --c-mint-50:  #F1FAF7;
   --c-mint-100: #DFF3EC;
@@ -69,7 +69,7 @@ page {
 /* ============================================================
  * 全局基础样式 - 轻食谱
  * ============================================================ */
-page {
+:root,body {
   background-color: var(--c-bg);
   color: var(--c-ink);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
