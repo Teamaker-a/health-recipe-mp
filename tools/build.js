@@ -307,6 +307,9 @@ function build() {
   const shellCss = path.join(ROOT, 'web', 'build', 'shell.css');
   if (exists(shellCss)) fs.copyFileSync(shellCss, path.join(DIST, 'shell.css'));
 
+  // 9) .nojekyll —— 让 GitHub Pages 不做 Jekyll 处理（否则会忽略 _ 开头的文件）
+  fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
+
   console.log('✅ build done →', path.relative(ROOT, DIST));
   console.log('   pages:', pages.length, '| tabbar:', tabBar.length, '| components:', componentFiles.length);
 }
