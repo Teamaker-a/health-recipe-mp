@@ -76,9 +76,11 @@ view, text, button, input, textarea, scroll-view {
   padding: var(--s-4);
   box-shadow: var(--sh-1);
   border: 2rpx solid rgba(255, 255, 255, 0.9);
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
-.card--tap:active {
+/* 可点击卡片的按压反馈：用 hover-class（touch 安全）
+ * 不使用 :active + transition，因为 transform 过渡会吞掉移动端合成的 tap 事件 */
+.card--tap { transition: none; }
+.card--hover, .card--tap:active {
   transform: scale(0.985);
   box-shadow: var(--sh-2);
 }

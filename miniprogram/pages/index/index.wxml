@@ -12,7 +12,10 @@
   </view>
 
   <!-- 未录入资料引导 -->
-  <view class="card card--tap cta mt-4" wx:if="{{!hasProfile}}" bindtap="goProfile">
+  <view class="card card--tap cta mt-4"
+        wx:if="{{!hasProfile}}"
+        hover-class="card--hover" hover-start-time="0" hover-stay-time="80"
+        catchtap="goProfile">
     <view class="row-between">
       <view class="col grow">
         <text class="t-lg t-bold">先录入身体数据</text>
